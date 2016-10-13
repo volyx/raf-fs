@@ -18,10 +18,11 @@ public class RafFsProviderTest {
 
     @Test
     public void test() throws IOException, URISyntaxException {
-        FileSystem fileSystem = FileSystems.newFileSystem(new URI("rf:/hello"), Collections.emptyMap());
-        FileSystemProvider provider = fileSystem.provider();
-        provider.createDirectory(Paths.get("abc"));
-//        Files.createFile(Paths.get());
+        Path tempFile = Files.createTempFile("abc", "tmp");
+        System.out.println(tempFile.toAbsolutePath());
+        FileSystem fileSystem = FileSystems.newFileSystem(URI.create("rf:foo/"), Collections.emptyMap() );
+
+        Files.createFile(Paths.get(new URI("rf:file:" + tempFile.toAbsolutePath() + "!/ok")));
     }
 
 }

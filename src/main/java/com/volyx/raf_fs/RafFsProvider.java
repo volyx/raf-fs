@@ -46,63 +46,73 @@ public class RafFsProvider extends FileSystemProvider {
     }
 
     public void checkAccess(Path var1, AccessMode... var2) throws IOException {
-        toRfPath(var1).checkAccess(var2);
-    }
-
-    public void copy(Path var1, Path var2, CopyOption... var3) throws IOException {
-        toRfPath(var1).copy(toRfPath(var2), var3);
-    }
-
-    public void createDirectory(Path var1, FileAttribute... var2) throws IOException {
-        toRfPath(var1).createDirectory(var2);
-    }
-
-    public final void delete(Path var1) throws IOException {
-        toRfPath(var1).delete();
-    }
-
-    public <V extends FileAttributeView> V getFileAttributeView(Path var1, Class<V> var2, LinkOption... var3) {
-        return ZipFileAttributeView.get(toRfPath(var1), var2);
-    }
-
-    public FileStore getFileStore(Path var1) throws IOException {
-        return toRfPath(var1).getFileStore();
-    }
-
-    public boolean isHidden(Path var1) {
-        return toRfPath(var1).isHidden();
-    }
-
-    public boolean isSameFile(Path var1, Path var2) throws IOException {
-        return toRfPath(var1).isSameFile(var2);
-    }
-
-    public void move(Path var1, Path var2, CopyOption... var3) throws IOException {
-        toRfPath(var1).move(toRfPath(var2), var3);
-    }
-
-    public AsynchronousFileChannel newAsynchronousFileChannel(Path var1, Set<? extends OpenOption> var2, ExecutorService var3, FileAttribute... var4) throws IOException {
+//        toRfPath(var1).checkAccess(var2);
         throw new UnsupportedOperationException();
     }
 
-    public SeekableByteChannel newByteChannel(Path var1, Set<? extends OpenOption> var2, FileAttribute... var3) throws IOException {
-        return toRfPath(var1).newByteChannel(var2, var3);
+    public void copy(Path var1, Path var2, CopyOption... var3) throws IOException {
+//        toRfPath(var1).copy(toRfPath(var2), var3);
+        throw new UnsupportedOperationException();
     }
 
-    public DirectoryStream<Path> newDirectoryStream(Path var1, DirectoryStream.Filter<? super Path> var2) throws IOException {
-        return toRfPath(var1).newDirectoryStream(var2);
+    public void createDirectory(Path var1, FileAttribute... var2) throws IOException {
+//        toRfPath(var1).createDirectory(var2);
+        throw new UnsupportedOperationException();
     }
 
-    public FileChannel newFileChannel(Path var1, Set<? extends OpenOption> var2, FileAttribute... var3) throws IOException {
-        return toRfPath(var1).newFileChannel(var2, var3);
+    public final void delete(Path var1) throws IOException {
+//        toRfPath(var1).delete();
+        throw new UnsupportedOperationException();
     }
 
-    public InputStream newInputStream(Path var1, OpenOption... var2) throws IOException {
-        return toRfPath(var1).newInputStream(var2);
+    public <V extends FileAttributeView> V getFileAttributeView(Path var1, Class<V> var2, LinkOption... var3) {
+//        return ZipFileAttributeView.get(toRfPath(var1), var2);
+        throw new UnsupportedOperationException();
     }
 
-    public OutputStream newOutputStream(Path var1, OpenOption... var2) throws IOException {
-        return toRfPath(var1).newOutputStream(var2);
+    @Override
+    public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options) throws IOException {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
+        return null;
+    }
+
+    @Override
+    public void setAttribute(Path path, String attribute, Object value, LinkOption... options) throws IOException {
+
+    }
+
+    public FileStore getFileStore(Path var1) throws IOException {
+//        return toRfPath(var1).getFileStore();
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean isHidden(Path var1) {
+//        return toRfPath(var1).isHidden();
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean isSameFile(Path var1, Path var2) throws IOException {
+//        return toRfPath(var1).isSameFile(var2);
+        throw new UnsupportedOperationException();
+    }
+
+    public void move(Path var1, Path var2, CopyOption... var3) throws IOException {
+//        toRfPath(var1).move(toRfPath(var2), var3);
+        throw new UnsupportedOperationException();
+    }
+
+    public Path getPath(URI uri) {
+        String var2 = uri.getSchemeSpecificPart();
+        int var3 = var2.indexOf("!/");
+        if(var3 == -1) {
+            throw new IllegalArgumentException("URI: " + uri + " does not contain path info ex. jar:file:/c:/foo.zip!/BAR");
+        } else {
+            return this.getFileSystem(uri).getPath(var2.substring(var3 + 1), new String[0]);
+        }
     }
 
     @Override
@@ -110,38 +120,16 @@ public class RafFsProvider extends FileSystemProvider {
         return toRfPath(path).newByteChannel(options, attrs);
     }
 
-    public <A extends BasicFileAttributes> A readAttributes(Path var1, Class<A> var2, LinkOption... var3) throws IOException {
-        return var2 != BasicFileAttributes.class && var2 != ZipFileAttributes.class?null:toRfPath(var1).getAttributes();
-    }
-
-    public Map<String, Object> readAttributes(Path var1, String var2, LinkOption... var3) throws IOException {
-        return toRfPath(var1).readAttributes(var2, var3);
-    }
-
-    public Path readSymbolicLink(Path var1) throws IOException {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    public void setAttribute(Path var1, String var2, Object var3, LinkOption... var4) throws IOException {
-        toRfPath(var1).setAttribute(var2, var3, var4);
-    }
-
-    public Path getPath(URI var1) {
-        String var2 = var1.getSchemeSpecificPart();
-        int var3 = var2.indexOf("!/");
-        if(var3 == -1) {
-            throw new IllegalArgumentException("URI: " + var1 + " does not contain path info ex. jar:file:/c:/foo.zip!/BAR");
-        } else {
-            return this.getFileSystem(var1).getPath(var2.substring(var3 + 1), new String[0]);
-        }
+    @Override
+    public DirectoryStream<Path> newDirectoryStream(Path dir, DirectoryStream.Filter<? super Path> filter) throws IOException {
+        throw new UnsupportedOperationException();
     }
 
 
-
-    static final RfPath toRfPath(Path var0) {
+    private static RfPath toRfPath(Path var0) {
         if(var0 == null) {
             throw new NullPointerException();
-        } else if(!(var0 instanceof ZipPath)) {
+        } else if(!(var0 instanceof RfPath)) {
             throw new ProviderMismatchException();
         } else {
             return (RfPath)var0;

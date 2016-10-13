@@ -3,14 +3,17 @@ package com.volyx.raf_fs;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.channels.SeekableByteChannel;
 import java.nio.file.*;
+import java.nio.file.attribute.FileAttribute;
 import java.util.Iterator;
+import java.util.Set;
 
 public class RfPath implements Path {
 
-    private final FileSystem fileSystem;
+    private final RfFileSystem fileSystem;
 
-    public RfPath(FileSystem fileSystem) {
+    public RfPath(RfFileSystem fileSystem) {
         this.fileSystem = fileSystem;
     }
 
@@ -142,5 +145,13 @@ public class RfPath implements Path {
     @Override
     public int compareTo(Path other) {
         return 0;
+    }
+
+    public SeekableByteChannel newByteChannel(Set<? extends OpenOption> options, FileAttribute<?>[] attrs) {
+        return this.fileSystem.newByteChannel(this.getResolvedPath(), options, attrs);
+    }
+
+    private byte[] getResolvedPath() {
+        return new byte[0];
     }
 }
